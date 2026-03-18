@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sierra Quantix — Technical Forestry Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bone: #F7F4EF;
+    --parchment: #EDE8DF;
+    --carbon: #1A1A1B;
+    --slate: #5A5F64;
+    --amber: #C8780A;
+    --amber-light: #E8931A;
+    --rule: #D4CEC4;
+    --white: #FDFCFB;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bone);
+    color: var(--carbon);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+
+  /* ── LANGUAGE TOGGLE ── */
+  .lang-bar {
+    position: fixed;
+    top: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 12px 24px;
+  }
+
+  .lang-btn {
+    background: none;
+    border: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+    cursor: pointer;
+    padding: 6px 10px;
+    transition: color 0.2s;
+  }
+  .lang-btn.active { color: var(--carbon); border-bottom: 1.5px solid var(--amber); }
+  .lang-btn:hover { color: var(--carbon); }
+  .lang-sep { color: var(--rule); font-size: 11px; }
+
+  /* ── HEADER NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: var(--bone);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .shield-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .nav-wordmark {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .nav-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--carbon);
+    line-height: 1;
+  }
+
+  .nav-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--slate);
+    line-height: 1;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--amber); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 81px;
+  }
+
+  .hero-left {
+    background: var(--carbon);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 80px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 59px,
+        rgba(255,255,255,0.03) 59px,
+        rgba(255,255,255,0.03) 60px
+      );
+  }
+
+  .hero-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 24px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--amber);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 6vw, 80px);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--white);
+    position: relative;
+    margin-bottom: 8px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--amber);
+  }
+
+  .hero-tagline-en {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-top: 32px;
+    margin-bottom: 8px;
+  }
+
+  .hero-tagline-jp {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.1em;
+  }
+
+  .hero-right {
+    background: var(--bone);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 64px;
+    position: relative;
+  }
+
+  .hero-taiden-block {
+    margin-bottom: 48px;
+  }
+
+  .taiden-kanji {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--carbon);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .taiden-romaji {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+
+  .taiden-meaning {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--slate);
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  .hero-divider {
+    width: 48px;
+    height: 1px;
+    background: var(--amber);
+    margin: 32px 0;
+  }
+
+  .hero-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--carbon);
+    max-width: 380px;
+  }
+
+  .hero-cta {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--carbon);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 28px;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--amber); }
+
+  .btn-secondary {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+  .btn-secondary:hover { color: var(--amber); }
+
+  .hero-origin {
+    position: absolute;
+    bottom: 32px;
+    right: 48px;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rule);
+  }
+
+  /* ── SECTION BASE ── */
+  section {
+    padding: 100px 48px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 64px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--amber);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--carbon);
+  }
+
+  .section-title em { font-style: italic; color: var(--amber); }
+
+  .section-title-jp {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--slate);
+    margin-top: 8px;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── SERVICES ── */
+  #services {
+    background: var(--white);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule);
+  }
+
+  .service-card {
+    background: var(--white);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .service-card:hover {
+    background: var(--bone);
+  }
+
+  .service-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    font-weight: 300;
+    color: var(--parchment);
+    line-height: 1;
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    font-style: italic;
+  }
+
+  .service-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 24px;
+  }
+
+  .service-name-en {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--carbon);
+    margin-bottom: 4px;
+  }
+
+  .service-name-jp {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--amber);
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+  }
+
+  .service-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--slate);
+    margin-bottom: 20px;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+    border: 1px solid var(--rule);
+    padding: 4px 8px;
+  }
+
+  .service-card:hover .tag {
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+
+  /* ── TAIDEN SHIELD ── */
+  #taiden {
+    background: var(--carbon);
+    color: var(--white);
+    padding: 100px 48px;
+  }
+
+  #taiden .section-title {
+    color: var(--white);
+  }
+
+  #taiden .section-label {
+    color: var(--amber);
+  }
+
+  #taiden .section-title-jp {
+    color: rgba(255,255,255,0.4);
+  }
+
+  .taiden-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 64px;
+  }
+
+  .taiden-left {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .taiden-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .taiden-intro em {
+    font-style: italic;
+    color: var(--amber);
+  }
+
+  .taiden-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.55);
+  }
+
+  .taiden-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .layer-item {
+    padding: 28px 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .layer-item:first-child { border-top: 1px solid rgba(255,255,255,0.08); }
+  .layer-item:hover { background: rgba(255,255,255,0.03); }
+
+  .layer-number {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+
+  .layer-title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .layer-jp {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .layer-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--bone);
+  }
+
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-left {
+    position: sticky;
+    top: 120px;
+  }
+
+  .credentials-block {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--rule);
+  }
+
+  .credential-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .credential-item:last-child { border-bottom: none; }
+
+  .cred-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--amber);
+    border-radius: 0;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .cred-text {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--carbon);
+    line-height: 1.4;
+  }
+
+  .cred-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--slate);
+    font-weight: 400;
+    display: block;
+    margin-top: 2px;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .about-right {
+    padding-top: 8px;
+  }
+
+  .about-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--carbon);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .about-name-jp {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--slate);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .about-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 32px;
+  }
+
+  .about-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.75;
+    color: var(--carbon);
+    margin-bottom: 24px;
+  }
+
+  .about-body + .about-body {
+    color: var(--slate);
+    font-size: 17px;
+  }
+
+  .about-quote {
+    margin-top: 40px;
+    padding: 28px 32px;
+    border-left: 3px solid var(--amber);
+    background: var(--white);
+  }
+
+  .about-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--carbon);
+  }
+
+  .about-quote footer {
+    margin-top: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  /* ── GX SERVICES ── */
+  #gx {
+    background: var(--parchment);
+  }
+
+  .gx-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 64px;
+  }
+
+  .gx-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.75;
+    color: var(--carbon);
+    margin-bottom: 32px;
+  }
+
+  .gx-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--slate);
+  }
+
+  .gx-right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .gx-item {
+    padding: 24px 28px;
+    background: var(--white);
+    border-left: 3px solid var(--rule);
+    transition: border-color 0.3s;
+  }
+
+  .gx-item:hover { border-color: var(--amber); }
+
+  .gx-item-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+
+  .gx-item-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--carbon);
+    margin-bottom: 8px;
+  }
+
+  .gx-item-jp {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--slate);
+    margin-bottom: 10px;
+  }
+
+  .gx-item-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--slate);
+  }
+
+  .gx-disclaimer {
+    margin-top: 48px;
+    padding: 24px;
+    border: 1px solid var(--rule);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--slate);
+    line-height: 1.6;
+    grid-column: 1 / -1;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--carbon);
+    color: var(--white);
+    padding: 100px 48px;
+  }
+
+  #contact .section-label { color: var(--amber); }
+  #contact .section-title { color: var(--white); }
+  #contact .section-title-jp { color: rgba(255,255,255,0.35); }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 64px;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .contact-item-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+
+  .contact-item-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--white);
+  }
+
+  .contact-item-value a {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-item-value a:hover { color: var(--amber); }
+
+  .contact-item-sub {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+    margin-top: 4px;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group.full { grid-column: 1 / -1; }
+
+  .form-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+
+  .form-input::placeholder,
+  .form-textarea::placeholder { color: rgba(255,255,255,0.2); }
+
+  .form-input:focus,
+  .form-textarea:focus,
+  .form-select:focus {
+    border-color: var(--amber);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .form-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C8780A' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    cursor: pointer;
+  }
+
+  .form-select option {
+    background: var(--carbon);
+  }
+
+  .btn-submit {
+    background: var(--amber);
+    border: none;
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    cursor: pointer;
+    transition: background 0.2s;
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-submit:hover { background: var(--amber-light); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #111112;
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-wordmark {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .footer-sep {
+    color: rgba(255,255,255,0.15);
+    font-size: 11px;
+  }
+
+  .footer-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .footer-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .footer-info {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .footer-info span {
+    color: rgba(200, 120, 10, 0.6);
+  }
+
+  /* ── LANGUAGE CONTENT ── */
+  .lang-en { display: block; }
+  .lang-jp { display: none; }
+
+  body.jp .lang-en { display: none; }
+  body.jp .lang-jp { display: block; }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fade-up:nth-child(2) { transition-delay: 0.1s; }
+  .fade-up:nth-child(3) { transition-delay: 0.2s; }
+  .fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { min-height: 60vh; padding: 80px 40px 60px; }
+    .hero-right { padding: 60px 40px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .taiden-layout,
+    .about-layout,
+    .gx-layout,
+    .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+    .about-left { position: static; }
+    nav { padding: 16px 24px; }
+    section { padding: 72px 24px; }
+    #taiden, #contact { padding: 72px 24px; }
+    footer { padding: 32px 24px; flex-direction: column; gap: 16px; text-align: center; }
+  }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .taiden-kanji { font-size: 52px; }
+    .hero-title { font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Language Toggle -->
+<div class="lang-bar">
+  <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+  <span class="lang-sep">/</span>
+  <button class="lang-btn" id="btn-jp" onclick="setLang('jp')">日本語</button>
+</div>
+
+<!-- Navigation -->
+<nav>
+  <a href="#" class="nav-logo">
+    <!-- Shield SVG -->
+    <svg class="shield-icon" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 2L34 9V22C34 30.837 26.837 38.414 18 40C9.163 38.414 2 30.837 2 22V9L18 2Z" fill="#1A1A1B" stroke="#1A1A1B" stroke-width="1.5"/>
+      <path d="M18 8L28 12.5V22C28 27.5 23.5 32.5 18 34C12.5 32.5 8 27.5 8 22V12.5L18 8Z" fill="none" stroke="#C8780A" stroke-width="1"/>
+      <!-- Tree silhouette inside shield -->
+      <path d="M18 14 L22 20 H19.5 L23 26 H20 L20 30 H16 L16 26 H13 L16.5 20 H14 Z" fill="#C8780A" opacity="0.9"/>
+    </svg>
+    <div class="nav-wordmark">
+      <span class="nav-name">Sierra Quantix</span>
+      <span class="nav-sub lang-en">Technical Forestry Operations</span>
+      <span class="nav-sub lang-jp" style="font-family:'Noto Sans JP',sans-serif;letter-spacing:0.05em;">技術林業運用</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services" class="lang-en">Services</a><a href="#services" class="lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:10px;">サービス</a></li>
+    <li><a href="#taiden" class="lang-en">Taiden Shield</a><a href="#taiden" class="lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:10px;">泰田シールド</a></li>
+    <li><a href="#about" class="lang-en">About</a><a href="#about" class="lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:10px;">私たちについて</a></li>
+    <li><a href="#gx">GX</a></li>
+    <li><a href="#contact" class="lang-en">Contact</a><a href="#contact" class="lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:10px;">お問い合わせ</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-label lang-en">Est. Texas, USA · Sierra Nevada Base</div>
+    <div class="hero-label lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:9px;letter-spacing:0.1em;">米国テキサス州設立・シエラネバダ山脈拠点</div>
+
+    <h1 class="hero-title lang-en">Restoring<br>the <em>Edge</em></h1>
+    <h1 class="hero-title lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.3;font-size:clamp(36px,5vw,64px);">境界の<em>再生</em></h1>
+
+    <div class="hero-tagline-en lang-en">Technical Forestry Operations</div>
+    <div class="hero-tagline-jp lang-en">技術現場運用 — Wildland-Urban Interface</div>
+
+    <div class="hero-tagline-en lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:12px;color:rgba(255,255,255,0.35);margin-top:32px;">Technical Forestry Operations</div>
+    <div class="hero-tagline-jp lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;color:rgba(255,255,255,0.55);margin-top:6px;">里山の境界線を科学と技術で守る</div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-taiden-block">
+      <div class="taiden-kanji">泰田</div>
+      <div class="taiden-romaji">Taiden Shield™</div>
+      <div class="taiden-meaning lang-en">Serene land stewardship · 泰 peace &amp; abundance · 田 cultivated earth</div>
+      <div class="taiden-meaning lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;font-style:normal;line-height:1.8;">泰 — 安らぎ・豊かさ・偉大さ<br>田 — 耕された大地・人と土地の絆</div>
+    </div>
+
+    <div class="hero-divider"></div>
+
+    <p class="hero-desc lang-en">
+      Where forest meets settlement, where bear meets community — Sierra Quantix engineers the boundary that keeps both wild and human life intact.
+    </p>
+    <p class="hero-desc lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:15px;font-weight:300;line-height:1.9;">
+      森と集落が出会う場所で、熊と人が向き合う境界線で、シエラ・クアンティクスは双方の命を守る境界線を設計・施工します。
+    </p>
+
+    <div class="hero-cta">
+      <a href="#taiden" class="btn-primary lang-en">
+        The System
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a href="#taiden" class="btn-primary lang-jp" style="display:none;">
+        システムを見る
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a href="#contact" class="btn-secondary lang-en">
+        Inquire
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a href="#contact" class="btn-secondary lang-jp" style="display:none;font-family:'Noto Sans JP',sans-serif;font-size:11px;">
+        お問い合わせ →
+      </a>
+    </div>
+
+    <div class="hero-origin lang-en">ISA Certified · WE-15955A · Georgetown, Sierra Nevada</div>
+    <div class="hero-origin lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:9px;">ISA公認アーボリスト · WE-15955A</div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="section-header">
+    <div>
+      <div class="section-label lang-en">Core Technical Capabilities</div>
+      <div class="section-label lang-jp" style="font-family:'Noto Sans JP',sans-serif;">専門技術概要</div>
+      <h2 class="section-title lang-en">Four<br><em>Systems</em></h2>
+      <h2 class="section-title lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-weight:300;">四つの<em>専門分野</em></h2>
+    </div>
+    <div style="max-width:320px;padding-top:8px;">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;line-height:1.7;color:var(--slate);" class="lang-en">
+        Each system is designed for the specific terrain of the wildland-urban interface — where conventional forestry stops and technical precision begins.
+      </p>
+      <p style="font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:300;line-height:1.9;color:var(--slate);" class="lang-jp">
+        各システムは、従来の林業が手を出せない里山境界地帯に特化して設計されています。
+      </p>
+    </div>
+  </div>
+
+  <div class="services-grid">
+    <!-- Card 1 -->
+    <div class="service-card fade-up">
+      <div class="service-number">01</div>
+      <svg class="service-icon" viewBox="0 0 40 40" fill="none">
+        <path d="M20 4L36 12V26C36 33.732 28.837 39.414 20 40C11.163 39.414 4 33.732 4 26V12L20 4Z" stroke="#C8780A" stroke-width="1.5"/>
+        <path d="M20 16L24 22H21V28H19V22H16L20 16Z" fill="#C8780A" opacity="0.6"/>
+      </svg>
+      <div class="service-name-en">Taiden Shield™</div>
+      <div class="service-name-jp">泰田シールド | 森林境界管理・対熊防護</div>
+      <p class="service-desc lang-en">
+        Precision habitat modification at the wildland-urban interface. LiDAR-informed visibility corridor design combined with ISA-certified technical felling to create bear-exclusion zones that work with forest ecology rather than against it.
+      </p>
+      <p class="service-desc lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:14px;line-height:1.9;">
+        LiDARデータを活用した視認性コリドーの設計と、ISA認定の精密伐採技術を組み合わせ、森林生態系と調和したヒグマ排除ゾーンを構築します。
+      </p>
+      <div class="service-tags">
+        <span class="tag">WUI Habitat</span>
+        <span class="tag">Bear Mitigation</span>
+        <span class="tag">Visual Corridors</span>
+        <span class="tag">ISA Certified</span>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="service-card fade-up">
+      <div class="service-number">02</div>
+      <svg class="service-icon" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="16" stroke="#C8780A" stroke-width="1.5" opacity="0.4"/>
+        <path d="M10 28 Q15 18 20 14 Q25 10 30 8" stroke="#C8780A" stroke-width="1.5"/>
+        <path d="M14 32 Q18 24 22 20 Q26 16 32 14" stroke="#C8780A" stroke-width="1" opacity="0.5"/>
+      </svg>
+      <div class="service-name-en">Vegetation Management</div>
+      <div class="service-name-jp">植生管理 | 伐採・林地残材整理</div>
+      <p class="service-desc lang-en">
+        Technical tree removal and brush clearance executed to Sierra Nevada standards. Sasa bamboo eradication, hazard tree extraction near infrastructure, and understory management that transforms overgrown satoyama into defensible buffer zones.
+      </p>
+      <p class="service-desc lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:14px;line-height:1.9;">
+        シエラネバダ基準による技術的な樹木除去と下草払い。ササの根絶、インフラ周辺の危険木の伐採、そして荒廃した里山を防護緩衝帯に変える林床管理。
+      </p>
+      <div class="service-tags">
+        <span class="tag">Tree Removal</span>
+        <span class="tag">Brush Clearance</span>
+        <span class="tag">Sasa Management</span>
+        <span class="tag">Hazard Work</span>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="service-card fade-up">
+      <div class="service-number">03</div>
+      <svg class="service-icon" viewBox="0 0 40 40" fill="none">
+        <path d="M8 32 L20 10 L32 32 Z" stroke="#C8780A" stroke-width="1.5" opacity="0.5"/>
+        <path d="M8 32 Q14 26 20 28 Q26 30 32 32" stroke="#C8780A" stroke-width="1"/>
+        <circle cx="20" cy="10" r="3" fill="#C8780A" opacity="0.7"/>
+      </svg>
+      <div class="service-name-en">Regenerative Forestry</div>
+      <div class="service-name-jp">循環型林業 | バイオ炭・木酢液生産システム</div>
+      <p class="service-desc lang-en">
+        Zero-waste field operations converting hazard-removal debris into high-value biochar and wood vinegar through on-site pyrolysis. Circular economics that turn the cost of clearance into soil amendment, natural repellent, and carbon sequestration.
+      </p>
+      <p class="service-desc lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:14px;line-height:1.9;">
+        現場熱分解によって危険木除去の廃材を高価値なバイオ炭と木酢液に変える、廃棄ゼロの現場運用。土壌改良材・天然忌避剤・炭素固定という付加価値を生み出します。
+      </p>
+      <div class="service-tags">
+        <span class="tag">Biochar</span>
+        <span class="tag">Wood Vinegar</span>
+        <span class="tag">Pyrolysis</span>
+        <span class="tag">Zero Waste</span>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="service-card fade-up">
+      <div class="service-number">04</div>
+      <svg class="service-icon" viewBox="0 0 40 40" fill="none">
+        <rect x="6" y="6" width="12" height="12" stroke="#C8780A" stroke-width="1.5" opacity="0.5"/>
+        <rect x="22" y="6" width="12" height="12" stroke="#C8780A" stroke-width="1.5" opacity="0.5"/>
+        <rect x="6" y="22" width="12" height="12" stroke="#C8780A" stroke-width="1.5" opacity="0.5"/>
+        <rect x="22" y="22" width="12" height="12" stroke="#C8780A" stroke-width="1"/>
+        <path d="M28 26 L28 30 M26 28 L30 28" stroke="#C8780A" stroke-width="1.5"/>
+      </svg>
+      <div class="service-name-en">GX Services</div>
+      <div class="service-name-jp">GXサービス | 炭素クレジット・トークン化</div>
+      <p class="service-desc lang-en">
+        Verifiable carbon ledger and tokenization services aligned with Japan's Green Transformation (GX) policy framework. Biochar-based carbon removal credits with blockchain-backed traceability — converting field operations into quantifiable ESG assets.
+      </p>
+      <p class="service-desc lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:14px;line-height:1.9;">
+        日本のGX政策に対応した検証可能なカーボン台帳・トークン化サービス。ブロックチェーンによる追跡可能性を持つバイオ炭由来の炭素除去クレジット。
+      </p>
+      <div class="service-tags">
+        <span class="tag">GX Policy</span>
+        <span class="tag">Carbon Credits</span>
+        <span class="tag">Tokenization</span>
+        <span class="tag">ESG</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TAIDEN SHIELD ── -->
+<section id="taiden">
+  <div class="section-header" style="border-bottom-color:rgba(255,255,255,0.1);">
+    <div>
+      <div class="section-label">Proprietary Methodology</div>
+      <h2 class="section-title" style="color:var(--white);">Taiden<br><em>Shield™</em></h2>
+      <div class="section-title-jp" style="font-family:'Noto Sans JP',sans-serif;">泰田シールド — 特許技術</div>
+    </div>
+    <div style="max-width:360px;padding-top:8px;">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.75;color:rgba(255,255,255,0.5);" class="lang-en">
+        Named for 泰田 — serene cultivated land — the Taiden Shield is a three-layer habitat modification system developed from Sierra Nevada wildland-urban interface management principles.
+      </p>
+      <p style="font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:1.9;color:rgba(255,255,255,0.45);" class="lang-jp">
+        「泰田」—安らかに耕された大地—の名を冠する本システムは、シエラネバダの里山管理技術から発展した三層式生息地改変システムです。
+      </p>
+    </div>
+  </div>
+
+  <div class="taiden-layout">
+    <div class="taiden-left">
+      <p class="taiden-intro lang-en">
+        Bears do not enter towns because they are aggressive. They enter because the <em>structural conditions</em> make it invisible, safe, and rewarding to do so.
+      </p>
+      <p class="taiden-intro lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:17px;font-style:normal;line-height:1.9;color:rgba(255,255,255,0.75);">
+        熊が集落に侵入するのは攻撃的だからではありません。そこに<em style="color:var(--amber);">侵入しやすい構造的条件</em>が整っているからです。
+      </p>
+      <p class="taiden-body lang-en">
+        The Taiden Shield addresses the structural problem directly. By engineering visibility, removing attractants, and modifying the biological and olfactory signals at the forest edge, we change what the bear perceives — without lethal intervention as the first resort.<br><br>
+        The system is not a fence. It is a redesigned landscape.
+      </p>
+      <p class="taiden-body lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:2.0;">
+        泰田シールドはこの構造的問題に直接対処します。視認性の確保、誘引物の除去、そして森林境界部の生物学的・嗅覚的シグナルを改変することで、致死的介入に頼らずに熊の認識そのものを変えます。<br><br>
+        本システムはフェンスではありません。設計し直された景観です。
+      </p>
+    </div>
+
+    <div class="taiden-right">
+      <div class="layer-item">
+        <div class="layer-number">Layer 01</div>
+        <div class="layer-title lang-en">Visual Corridor Engineering</div>
+        <div class="layer-title lang-jp" style="font-family:'Noto Sans JP',sans-serif;letter-spacing:0.05em;">視認性コリドーの構築</div>
+        <div class="layer-jp">特殊伐採 · LiDAR測量 · 林床整理</div>
+        <p class="layer-desc lang-en">ISA-certified precision felling and understory clearance creates 50-metre visibility buffers. Bears instinctively avoid open, exposed terrain. We make the edge uncomfortable for them to cross.</p>
+        <p class="layer-desc lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:1.9;">ISA認定の精密伐採と林床整理により50メートルの視認バッファを確保。熊は本能的に開けた場所を避けます。</p>
+      </div>
+
+      <div class="layer-item">
+        <div class="layer-number">Layer 02</div>
+        <div class="layer-title lang-en">Olfactory & Biological Deterrence</div>
+        <div class="layer-title lang-jp" style="font-family:'Noto Sans JP',sans-serif;letter-spacing:0.05em;">嗅覚的・生物的忌避</div>
+        <div class="layer-jp">木酢液 · スマート防護柵 · 生態系設計</div>
+        <p class="layer-desc lang-en">Wood vinegar distilled from on-site pyrolysis applied to charred perimeter posts. Bears associate the smoke signal with fire danger. Smart electric infrastructure reinforces the boundary with a physical consequence.</p>
+        <p class="layer-desc lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:1.9;">現地熱分解で抽出した木酢液を炭化した防護杭に塗布。熊は煙の匂いを火の危険と関連付けます。</p>
+      </div>
+
+      <div class="layer-item">
+        <div class="layer-number">Layer 03</div>
+        <div class="layer-title lang-en">Circular Resource Recovery</div>
+        <div class="layer-title lang-jp" style="font-family:'Noto Sans JP',sans-serif;letter-spacing:0.05em;">資源の循環的回収</div>
+        <div class="layer-jp">バイオ炭 · 炭素固定 · GXクレジット</div>
+        <p class="layer-desc lang-en">All felled material becomes feedstock. Biochar returned to the soil improves moisture retention and sequesters carbon. Wood vinegar enters agricultural and GX carbon credit markets. Nothing leaves the site as waste.</p>
+        <p class="layer-desc lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:1.9;">伐採材はすべて原料となります。バイオ炭は土壌に還元され、木酢液は農業・GX炭素市場へ。廃棄物ゼロの現場運用。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-header">
+    <div>
+      <div class="section-label lang-en">Principal</div>
+      <div class="section-label lang-jp" style="font-family:'Noto Sans JP',sans-serif;">代表者</div>
+      <h2 class="section-title lang-en">John<br><em>Hong</em></h2>
+      <h2 class="section-title lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.2;">ジョン・<em>ホン</em></h2>
+    </div>
+  </div>
+
+  <div class="about-layout">
+    <div class="about-left">
+      <div class="credentials-block">
+        <div class="credential-item">
+          <div class="cred-dot"></div>
+          <div>
+            <span class="cred-text">ISA Certified Arborist
+              <span class="cred-sub">WE-15955A · International Society of Arboriculture</span>
+            </span>
+          </div>
+        </div>
+        <div class="credential-item">
+          <div class="cred-dot"></div>
+          <div>
+            <span class="cred-text">Wildland Fire Mitigation
+              <span class="cred-sub">CWMS Certified · Defensible Space Design</span>
+            </span>
+          </div>
+        </div>
+        <div class="credential-item">
+          <div class="cred-dot"></div>
+          <div>
+            <span class="cred-text">Expert Sawyer
+              <span class="cred-sub">Advanced felling · Complex hazard removal · Large DBH</span>
+            </span>
+          </div>
+        </div>
+        <div class="credential-item">
+          <div class="cred-dot"></div>
+          <div>
+            <span class="cred-text">Sierra Nevada Operations
+              <span class="cred-sub">6+ years · El Dorado County · Georgetown Base</span>
+            </span>
+          </div>
+        </div>
+        <div class="credential-item">
+          <div class="cred-dot"></div>
+          <div>
+            <span class="cred-text">USC · BA East Asian Studies
+              <span class="cred-sub">Korean–American · Cultural fluency Japan/Korea</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:32px;padding:20px;border:1px solid var(--rule);">
+        <div style="font-size:9px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;">Sierra Quantix, LLC</div>
+        <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--slate);line-height:1.8;">
+          Est. Texas, USA<br>
+          Georgetown, Sierra Nevada, CA<br>
+          sierraquantix.com
+        </div>
+      </div>
+    </div>
+
+    <div class="about-right">
+      <div class="about-name-jp lang-jp">森林減災技術エンジニア</div>
+      <div class="about-title lang-en">Principal Mitigation Engineer</div>
+      <div class="about-title lang-jp" style="font-family:'Noto Sans JP',sans-serif;">森林減災技術エンジニア | ISA公認アーボリスト</div>
+
+      <p class="about-body lang-en">
+        John Hong operates at the intersection that most practitioners avoid: the exact point where commercial forestry ends and high-consequence hazard work begins. Based in the Sierra Nevada wilderness of Georgetown, California, he has spent over six years managing some of the most technically demanding wildland-urban interface terrain in North America.
+      </p>
+      <p class="about-body lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:15px;font-weight:300;line-height:2.0;color:var(--carbon);">
+        ジョン・ホンは、多くの専門家が避ける交差点で活動しています。それは商業林業が終わり、高度なリスク管理が始まる、まさにその地点です。カリフォルニア州ジョージタウンのシエラネバダ山脈を拠点に、北米でも最も技術的に要求度の高い里山境界地帯の管理に6年以上従事してきました。
+      </p>
+
+      <p class="about-body lang-en">
+        His ISA certification, wildland fire mitigation training, and expert sawyer credentials represent a convergence of skills that does not exist in the Japanese forestry market. Where local crews depend on heavy machinery and aging techniques, Sierra Quantix brings Sierra Nevada precision: the ability to drop a four-foot DBH oak onto a dime, in terrain no machine can reach, with zero collateral damage.
+      </p>
+      <p class="about-body lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:300;line-height:2.0;color:var(--slate);">
+        彼のISA資格、山岳野火軽減訓練、エキスパートソーヤー認定は、日本の林業市場に存在しないスキルの融合を体現しています。重機と旧来の技術に頼る地元の作業員とは異なり、シエラ・クアンティクスはシエラネバダの精度をもたらします。
+      </p>
+
+      <div class="about-quote">
+        <p class="lang-en">"The crisis in Hokkaido is not a bear problem. It is a structural problem — one that can be engineered. My daughter will grow up here. So will the bears. The boundary between them is my life's work."</p>
+        <p class="lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:16px;font-style:normal;font-weight:300;line-height:1.9;">「北海道の危機は熊の問題ではありません。構造的な問題であり、工学的に解決できるものです。私の娘はここで育ちます。熊もそうです。その境界線こそが、私の仕事の本質です。」</p>
+        <footer>— John Hong, Sierra Quantix</footer>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GX SERVICES ── -->
+<section id="gx">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Green Transformation</div>
+      <h2 class="section-title">GX<br><em>Services</em></h2>
+      <div class="section-title-jp" style="font-family:'Noto Sans JP',sans-serif;">GXサービス — 炭素・生態系</div>
+    </div>
+  </div>
+
+  <div class="gx-layout">
+    <div>
+      <p class="gx-intro lang-en">
+        Japan's GX Economy Transition mandate creates a direct financial pathway from Taiden Shield operations to corporate carbon markets. Every cleared corridor is a carbon removal event. We make it verifiable.
+      </p>
+      <p class="gx-intro lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:15px;line-height:2.0;">
+        日本のGX経済移行政策は、泰田シールドの施工から企業炭素市場への直接的な資金経路を生み出します。伐採された回廊はすべて炭素除去事象です。私たちはそれを検証可能にします。
+      </p>
+      <p class="gx-body lang-en">
+        Biochar produced from on-site pyrolysis of hazard-removal material carries a dual value: it enriches Hokkaido's agricultural soil while locking atmospheric carbon in a stable form for hundreds of years. Combined with blockchain-backed ledger documentation, this creates a GX-eligible carbon asset from what was previously a disposal cost.<br><br>
+        <em style="color:var(--carbon);font-style:italic;">Note: GX carbon credit services are currently in development phase. Initial operations focus on field methodology and biochar production establishment.</em>
+      </p>
+      <p class="gx-body lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:2.0;">
+        危険木除去材の現地熱分解で生産されたバイオ炭は二重の価値を持ちます。北海道の農業土壌を豊かにしながら、大気中の炭素を数百年にわたり安定した形で固定します。<br><br>
+        <em style="color:var(--slate);">注：GX炭素クレジットサービスは現在開発段階です。初期業務は現場技術と炭素固定の確立に注力しています。</em>
+      </p>
+    </div>
+
+    <div class="gx-right">
+      <div class="gx-item">
+        <div class="gx-item-label">Stream 01</div>
+        <div class="gx-item-title lang-en">Biochar Carbon Removal</div>
+        <div class="gx-item-title lang-jp" style="font-family:'Noto Sans JP',sans-serif;letter-spacing:0.05em;">バイオ炭による炭素除去</div>
+        <div class="gx-item-jp">バイオ炭 · J-Credit対応 · Puro.earth</div>
+        <p class="gx-item-desc lang-en">On-site pyrolysis converts hazard-removal debris into stable biochar. Each tonne yields approximately 2.5–3 tonnes CO₂ equivalent. Credits registered on international voluntary markets.</p>
+        <p class="gx-item-desc lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:1.9;">現地熱分解で危険木除去廃材をバイオ炭に変換。1トンあたり約2.5〜3トンCO₂相当のクレジット。</p>
+      </div>
+      <div class="gx-item">
+        <div class="gx-item-label">Stream 02</div>
+        <div class="gx-item-title lang-en">Verifiable Carbon Ledger</div>
+        <div class="gx-item-title lang-jp" style="font-family:'Noto Sans JP',sans-serif;letter-spacing:0.05em;">検証可能カーボン台帳</div>
+        <div class="gx-item-jp">ブロックチェーン · GPS記録 · 透明性</div>
+        <p class="gx-item-desc lang-en">GPS-tagged field operations and blockchain-backed documentation provide full chain of custody. Corporate ESG teams receive traceable impact data from specific Hokkaido sites.</p>
+        <p class="gx-item-desc lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:1.9;">GPS記録された現場作業とブロックチェーン文書化による完全な追跡可能性。北海道の特定サイトからの透明なインパクトデータ。</p>
+      </div>
+      <div class="gx-item">
+        <div class="gx-item-label">Stream 03</div>
+        <div class="gx-item-title lang-en">Wood Vinegar · Agricultural Markets</div>
+        <div class="gx-item-title lang-jp" style="font-family:'Noto Sans JP',sans-serif;letter-spacing:0.05em;">木酢液 · 農業市場</div>
+        <div class="gx-item-jp">木酢液 · 有機農業 · 地域循環</div>
+        <p class="gx-item-desc lang-en">Refined pyroligneous acid for Hokkaido's onion, potato, and dairy farms. Natural pest deterrent, root stimulant, and soil acidifier. Local circular economy in practice.</p>
+        <p class="gx-item-desc lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:1.9;">北海道の玉ねぎ・ジャガイモ・酪農農家向けに精製した木酢液。天然の害虫忌避剤・発根促進剤・土壌酸性化剤として。</p>
+      </div>
+    </div>
+
+    <div class="gx-disclaimer lang-en">
+      Sierra Quantix is aligned with Japan's 2026 GX Economy Transition Bond framework and the Hokkaido Prefecture environmental revitalization mandate. GX credit registration and tokenization services are in active development for operational commencement in Year 2 of Hokkaido operations.
+    </div>
+    <div class="gx-disclaimer lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:1.9;">
+      シエラ・クアンティクスは日本の2026年GX経済移行債フレームワークおよび北海道環境活性化方針に対応しています。GXクレジット登録・トークン化サービスは北海道での活動第2年度に向けて開発中です。
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="section-header" style="border-bottom-color:rgba(255,255,255,0.1);">
+    <div>
+      <div class="section-label">Get in Touch</div>
+      <h2 class="section-title" style="color:var(--white);">Begin the<br><em>Conversation</em></h2>
+      <div class="section-title-jp" style="font-family:'Noto Sans JP',sans-serif;">お問い合わせ</div>
+    </div>
+    <div style="max-width:320px;padding-top:8px;">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:16px;line-height:1.75;color:rgba(255,255,255,0.45);" class="lang-en">
+        Whether you represent a Hokkaido municipality, a forestry cooperative, a carbon credit buyer, or are simply interested in the Taiden Shield methodology — we welcome contact.
+      </p>
+      <p style="font-family:'Noto Sans JP',sans-serif;font-size:13px;line-height:1.9;color:rgba(255,255,255,0.4);" class="lang-jp">
+        北海道の自治体、森林組合、炭素クレジットの購入者、または泰田シールドの手法にご関心のある方、どなたでもお気軽にご連絡ください。
+      </p>
+    </div>
+  </div>
+
+  <div class="contact-layout">
+    <div class="contact-info">
+      <div>
+        <div class="contact-item-label lang-en">Email</div>
+        <div class="contact-item-label lang-jp" style="font-family:'Noto Sans JP',sans-serif;">メール</div>
+        <div class="contact-item-value"><a href="mailto:john@sierraquantix.com">john@sierraquantix.com</a></div>
+      </div>
+      <div>
+        <div class="contact-item-label lang-en">Web</div>
+        <div class="contact-item-value"><a href="https://sierraquantix.com">sierraquantix.com</a></div>
+        <div class="contact-item-sub lang-en">English / 日本語</div>
+      </div>
+      <div>
+        <div class="contact-item-label lang-en">Base of Operations</div>
+        <div class="contact-item-label lang-jp" style="font-family:'Noto Sans JP',sans-serif;">拠点</div>
+        <div class="contact-item-value lang-en" style="font-size:17px;">Georgetown, Sierra Nevada, CA<br>Currently: Hokkaido, Japan</div>
+        <div class="contact-item-value lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:16px;font-weight:300;">カリフォルニア州シエラネバダ山脈<br>現在地：北海道、日本</div>
+      </div>
+      <div>
+        <div class="contact-item-label lang-en">Entity</div>
+        <div class="contact-item-label lang-jp" style="font-family:'Noto Sans JP',sans-serif;">法人</div>
+        <div class="contact-item-value lang-en" style="font-size:16px;">Sierra Quantix, LLC<br>Est. Texas, USA</div>
+        <div class="contact-item-value lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:15px;font-weight:300;">シエラ・クアンティクス合同会社<br>米国テキサス州法人</div>
+      </div>
+    </div>
+
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label lang-en">Name</label>
+          <label class="form-label lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:9px;">お名前</label>
+          <input type="text" class="form-input" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label lang-en">Organisation</label>
+          <label class="form-label lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:9px;">組織名</label>
+          <input type="text" class="form-input" placeholder="Optional">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label lang-en">Enquiry Type</label>
+        <label class="form-label lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:9px;">お問い合わせの種類</label>
+        <select class="form-select form-input">
+          <option value="">Select...</option>
+          <option>Taiden Shield™ — WUI Habitat Mitigation</option>
+          <option>Vegetation Management / Technical Felling</option>
+          <option>Regenerative Forestry / Biochar</option>
+          <option>GX Services / Carbon Credits</option>
+          <option>Partnership / Investment</option>
+          <option>Hokkaido Startup Visa Inquiry</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label class="form-label lang-en">Message</label>
+        <label class="form-label lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:9px;">メッセージ</label>
+        <textarea class="form-textarea" placeholder="Describe your site, challenge, or question..."></textarea>
+      </div>
+      <button type="submit" class="btn-submit">
+        <span class="lang-en">Send Enquiry</span>
+        <span class="lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-size:11px;">送信する</span>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+      <p style="font-size:11px;color:rgba(255,255,255,0.25);font-family:'Cormorant Garamond',serif;font-style:italic;" class="lang-en">Response within 48 hours. Japanese correspondence welcome.</p>
+      <p style="font-size:11px;color:rgba(255,255,255,0.25);font-family:'Noto Sans JP',sans-serif;font-weight:300;" class="lang-jp">48時間以内にご返答いたします。日本語でのご連絡も歓迎します。</p>
+    </form>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-left">
+    <span class="footer-wordmark">Sierra Quantix</span>
+    <span class="footer-sep">·</span>
+    <span class="footer-tagline lang-en">Restoring the Edge</span>
+    <span class="footer-tagline lang-jp" style="font-family:'Noto Sans JP',sans-serif;font-style:normal;font-size:12px;">境界の再生</span>
+  </div>
+  <div class="footer-right">
+    <span class="footer-info">Est. <span>Texas</span>, USA</span>
+    <span class="footer-info">Georgetown, <span>Sierra Nevada</span>, CA</span>
+    <span class="footer-info">ISA Certified · <span>WE-15955A</span></span>
+  </div>
+</footer>
+
+<script>
+  // Language toggle
+  function setLang(lang) {
+    const body = document.body;
+    const btnEn = document.getElementById('btn-en');
+    const btnJp = document.getElementById('btn-jp');
+    if (lang === 'jp') {
+      body.classList.add('jp');
+      btnJp.classList.add('active');
+      btnEn.classList.remove('active');
+    } else {
+      body.classList.remove('jp');
+      btnEn.classList.add('active');
+      btnJp.classList.remove('active');
+    }
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Contact form
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    const isJp = document.body.classList.contains('jp');
+    btn.innerHTML = isJp
+      ? '<span style="font-family:\'Noto Sans JP\',sans-serif;font-size:11px;">送信しました ✓</span>'
+      : 'Sent ✓';
+    btn.style.background = '#2D7A4A';
+    btn.disabled = true;
+
+    // In production, replace with actual form handler (Formspree, etc.)
+    console.log('Form submitted — integrate with Formspree or similar');
+  }
+
+  // Smooth nav active state
+  const sections = document.querySelectorAll('section[id], div[id]');
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    sections.forEach(section => {
+      const top = section.offsetTop - 120;
+      const height = section.offsetHeight;
+      if (scrollY >= top && scrollY < top + height) {
+        document.querySelectorAll('.nav-links a').forEach(a => {
+          a.style.color = '';
+          if (a.getAttribute('href') === `#${section.id}`) {
+            a.style.color = 'var(--amber)';
+          }
+        });
+      }
+    });
+  });
+</script>
+</body>
+</html>
